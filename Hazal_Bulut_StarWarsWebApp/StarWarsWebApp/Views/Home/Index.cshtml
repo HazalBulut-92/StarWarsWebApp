@@ -1,0 +1,203 @@
+﻿@model StarshipViewModel
+
+<div class="container col-md-12">
+    <h2>Starship Length and Crew Overview</h2>
+    <canvas id="starshipChart" width="50" height="50"></canvas>
+</div>
+<hr />
+<div class="container col-md-12">
+    <h2>Add New Starship</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    <form method="post" asp-action="Create">
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="Name" placeholder="Name" required>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="model" class="form-label">Model</label>
+                <input type="text" class="form-control" id="model" name="Model" placeholder="Model">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="manufacturer" class="form-label">Manufacturer</label>
+                <input type="text" class="form-control" id="manufacturer" name="Manufacturer" placeholder="Manufacturer">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="costInCredits" class="form-label">Cost in Credits</label>
+                <input type="text" class="form-control" id="costInCredits" name="CostInCredits" placeholder="Cost in Credits">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="length" class="form-label">Length</label>
+                <input type="number" class="form-control" id="lengthCount" name="LengthCount" placeholder="Length" step="0.1" min="0">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="maxAtmospheringSpeed" class="form-label">Max Atmosphering Speed</label>
+                <input type="text" class="form-control" id="maxAtmospheringSpeed" name="MaxAtmospheringSpeed" placeholder="Max Atmosphering Speed">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="crew" class="form-label">Crew</label>
+                <input type="number" class="form-control" id="crewCount" name="CrewCount" placeholder="Crew" step="1" min="0">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="passengers" class="form-label">Passengers</label>
+                <input type="number" class="form-control" id="passengers" name="Passengers" placeholder="Passengers" step="1" min="0">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="cargoCapacity" class="form-label">Cargo Capacity</label>
+                <input type="text" class="form-control" id="cargoCapacity" name="CargoCapacity" placeholder="Cargo Capacity">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="consumables" class="form-label">Consumables</label>
+                <input type="text" class="form-control" id="consumables" name="Consumables" placeholder="Consumables">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="hyperdriveRating" class="form-label">Hyperdrive Rating</label>
+                <input type="text" class="form-control" id="hyperdriveRating" name="HyperdriveRating" placeholder="Hyperdrive Rating">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="mglt" class="form-label">MGLT</label>
+                <input type="text" class="form-control" id="mglt" name="MGLT" placeholder="MGLT">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="starshipClass" class="form-label">Starship Class</label>
+                <input type="text" class="form-control" id="starshipClass" name="StarshipClass" placeholder="Starship Class">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="films" class="form-label">Films (comma-separated)</label>
+                <input type="text" class="form-control" id="filmNames" name="FilmNames" placeholder="Films (comma-separated)">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="pilots" class="form-label">Pilots (comma-separated)</label>
+                <input type="text" class="form-control" id="pilotsNames" name="PilotsNames" placeholder="Pilots (comma-separated)">
+            </div>
+        </div>
+        <div class="">
+            <button type="submit" class="btn btn-primary">Save Starship</button>
+        </div>
+    </form>
+</div>
+<hr />
+<div class="text-center col-md-12">
+    <h1>Starship List</h1>
+    <form method="get" asp-action="Index" class="col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control col-md-5" style="margin:10px" id="searchName" name="SearchName" value="@Model.SearchName" placeholder="Search by Name">
+            <button type="submit" class="btn btn-secondary col-md-3" style="margin:10px">Search</button>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <strong>Total Crew: @Model.TotalCrew</strong>
+        <strong>Total Crew On The Current pAGE: @Model.TotalCrewCurrentList</strong>
+    </div>
+    <table class="table table-dark table-striped table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSortParm" asp-route-searchName="@Model.SearchName">Name</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.ModelSortParm" asp-route-searchName="@Model.SearchName">Model</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.ManufacturerSortParm" asp-route-searchName="@Model.SearchName">Manufacturer</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.LengthSortParm" asp-route-searchName="@Model.SearchName">Length</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.CrewSortParm" asp-route-searchName="@Model.SearchName">Crew</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.PassengersSortParm" asp-route-searchName="@Model.SearchName">Passengers</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.ConsumablesSortParm" asp-route-searchName="@Model.SearchName">Consumables</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.MGLTSortParm" asp-route-searchName="@Model.SearchName">MGLT</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.StarshipClassSortParm" asp-route-searchName="@Model.SearchName">Starship Class</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.FilmsSortParm" asp-route-searchName="@Model.SearchName">Films</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewBag.PilotsSortParm" asp-route-searchName="@Model.SearchName">Pilots</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var starship in Model.Starships)
+            {
+                <tr>
+                    <td>@starship.Name</td>
+                    <td>@starship.Model</td>
+                    <td>@starship.Manufacturer</td>
+                    <td>@starship.LengthCount</td>
+                    <td>@starship.CrewCount</td>
+                    <td>@starship.Passengers</td>
+                    <td>@starship.Consumables</td>
+                    <td>@starship.MGLT</td>
+                    <td>@starship.StarshipClass</td>
+                    <td>@starship.FilmNames</td>
+                    <td>@starship.PilotNames</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div>
+        @if (Model.TotalPages > 1)
+        {
+            <ul class="pagination">
+                @if (Model.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-sortOrder="@Model.SortOrder" asp-route-searchName="@Model.SearchName" asp-route-page="@(Model.CurrentPage - 1)">« Previous</a>
+                    </li>
+                }
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-sortOrder="@Model.SortOrder" asp-route-searchName="@Model.SearchName" asp-route-page="@i">@i</a>
+                    </li>
+                }
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-sortOrder="@Model.SortOrder" asp-route-searchName="@Model.SearchName" asp-route-page="@(Model.CurrentPage + 1)">Next »</a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        var starshipLabels = @Html.Raw(Json.Serialize(Model.Starships.Select(s => s.Name)));
+        var starshipLengthData = @Html.Raw(Json.Serialize(Model.Starships.Select(s => s.LengthCount)));
+        var starshipCrewData = @Html.Raw(Json.Serialize(Model.Starships.Select(s => s.CrewCount)));
+
+        var ctx = document.getElementById('starshipChart').getContext('2d');
+        var starshipChart = new Chart(ctx, {
+            type: 'bar', 
+            data: {
+                labels: starshipLabels,
+                datasets: [
+                    {
+                        label: 'Length',
+                        data: starshipLengthData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Crew',
+                        data: starshipCrewData,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>

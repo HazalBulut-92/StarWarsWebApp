@@ -1,0 +1,86 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@font-face {
+    font-family: 'starjedi';
+    src: url('starjedi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.form-group, button {
+    margin-top: 10px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #000; /* black background */
+    color: #feda4a; /* Star Wars yellow */
+    font-family: 'starjedi', sans-serif; /* Star Wars font */
+    text-align: center;
+}
+#starshipChart {
+    max-width: 1200px; 
+    max-height: 300px; 
+}
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #1a1a1a; /* Dark grey table background */
+    border: 1px solid #feda4a; /* yellow border */
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #feda4a; /* yellow border */
+}
+
+th {
+    background-color: #333;
+    color: #feda4a;
+}
+
+a {
+    color: #feda4a; /* yellow links */
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+    a:hover {
+        color: #ffffff;
+    }
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+    .pagination a {
+        padding: 10px 15px;
+        background-color: #333;
+        border: 1px solid #feda4a;
+        margin: 0 5px;
+    }
+
+        .pagination a:hover {
+            background-color: #feda4a;
+            color: #000;
+        }
